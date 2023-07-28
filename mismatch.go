@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	buffer = make([]byte, 1)
+	buffer = make([]byte, BufferSize)
 	depth  = 0
 )
 
@@ -17,9 +17,11 @@ func Depth(file *os.File) (int, error) {
 
 ReadLoop:
 	for {
-		switch _, err := file.Read(buffer); err {
+		switch read, err := file.Read(buffer); err {
 		case nil:
-			pos, depth = processByte(buffer[0], pos, depth)
+			for i := 0; i < read; i++ {
+				pos, depth = processByte(buffer[i], pos, depth)
+			}
 		case io.EOF:
 			break ReadLoop
 		default:
