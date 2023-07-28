@@ -6,10 +6,6 @@ import (
 	"os"
 )
 
-var (
-	BufferSize = 64
-)
-
 func main() {
 	processFile(os.Stdin)
 }
