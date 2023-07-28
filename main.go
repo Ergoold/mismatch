@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"mismatch/report"
 	"os"
 )
 
@@ -15,6 +16,6 @@ func processFile(file *os.File) {
 			panic(err)
 		}
 	} else {
-		_, _ = fmt.Fprintf(os.Stderr, "%v\n", err)
+		report.Fatal(err)
 	}
 }
