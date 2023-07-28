@@ -7,8 +7,11 @@ $ echo '()' | mismatch
 0
 ```
 
+The size of the internal read buffer (in bytes) is taken from the environment variable BUFFER_SIZE.
+The default buffer size is 64 bytes.
+
 ```
-$ echo '(()' | mismatch
+$ BUFFER_SIZE=1024 echo '(()' | mismatch
 1
 ```
 
