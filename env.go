@@ -6,7 +6,8 @@ import (
 )
 
 var (
-	BufferSize = env("BUFFER_SIZE", strconv.Atoi, 64)
+	BufferSize        = env("BUFFER_SIZE", strconv.Atoi, 64)
+	InitialStackDepth = env("INITIAL_STACK_DEPTH", strconv.Atoi, 4)
 )
 
 type parser[T any] func(string) (T, error)

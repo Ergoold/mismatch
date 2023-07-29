@@ -11,8 +11,8 @@ func main() {
 }
 
 func processFile(file *os.File) {
-	if depth, err := Depth(file); err == nil {
-		if _, err = fmt.Fprintf(os.Stdout, "%v\n", depth); err != nil {
+	if stack, err := Mismatches(file); err == nil {
+		if _, err = fmt.Fprintf(os.Stdout, "%v\n", len(stack)); err != nil {
 			panic(err)
 		}
 	} else {
