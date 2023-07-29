@@ -21,6 +21,8 @@ func (p Position) NextChar(value byte) Position {
 	if value == '\n' {
 		nextChar.line++
 		nextChar.char = 0
+
+		nextChar.lineStart = nextChar.pos
 	}
 
 	return nextChar
@@ -30,12 +32,10 @@ func (p Position) NextChar(value byte) Position {
 //
 // Assumes ps is sorted by line (earlier lines appear earlier).
 func (p Position) UpdateLine(ps []Position) []Position {
-	lastLine := p.line - 1
-
 	for i := len(ps) - 1; i >= 0; i-- {
 		pos := ps[i]
 
-		if pos.line != lastLine {
+		if pos.lineEnd != 0 {
 			break
 		}
 
