@@ -7,22 +7,10 @@ import (
 	"os"
 )
 
-func (p Position) WriteDiagnostic(diagnostic string, file *os.File, writer io.Writer, showInLine bool) error {
+func (p Position) WriteDiagnostic(diagnostic string, file *os.File, writer io.Writer) {
 	if _, err := fmt.Fprintf(writer, "mismatch: %v:%v:%v: %v '%c'\n", file.Name(), p.line, p.char, diagnostic, p.value); err != nil {
 		report.Fatal(err)
 	}
-
-	if showInLine {
-		if err := p.ShowPositionInLine(file, writer); err != nil {
-			return err
-		}
-	}
-
-	if _, err := fmt.Fprintf(writer, "\n"); err != nil {
-		report.Fatal(err)
-	}
-
-	return nil
 }
 
 func (p Position) ShowPositionInLine(reader io.ReadSeeker, writer io.Writer) error {
@@ -62,7 +50,7 @@ func (p Position) ShowPositionInLine(reader io.ReadSeeker, writer io.Writer) err
 		}
 	}
 
-	if _, err := fmt.Fprintf(writer, "^ here\n"); err != nil {
+	if _, err := fmt.Fprintf(writer, "^ here\n\n"); err != nil {
 		report.Fatal(err)
 	}
 

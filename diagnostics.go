@@ -18,27 +18,31 @@ func WriteDiagnostics(ps []position.Position, file *os.File, writer io.Writer) {
 	showInLine := true
 
 	for _, pos := range ps {
-		if err := writeDiagnostic(pos, file, writer, showInLine); err != nil {
-			report.Warning(err)
+		writeDiagnostic(pos, file, writer)
 
-			switch pathError := err.(type) {
-			case *os.PathError:
-				if pathError.Op != "seek" {
+		if showInLine {
+			if err := pos.ShowPositionInLine(file, writer); err != nil {
+				report.Warning(err)
+
+				switch pathError := err.(type) {
+				case *os.PathError:
+					if pathError.Op != "seek" {
+						return
+					}
+
+					showInLine = false
+				default:
 					return
 				}
-
-				showInLine = false
-			default:
-				return
 			}
 		}
 	}
 }
 
-func writeDiagnostic(pos position.Position, file *os.File, writer io.Writer, showInLine bool) error {
+func writeDiagnostic(pos position.Position, file *os.File, writer io.Writer) {
 	value := pos.Value()
 
 	diagnostic := diagnostics[value]
 
-	return pos.WriteDiagnostic(diagnostic, file, writer, showInLine)
+	pos.WriteDiagnostic(diagnostic, file, writer)
 }
