@@ -4,7 +4,7 @@ Prints all mismatched parentheses in stdin and their locations.
 
 ```
 $ echo '()' >file
-$ mismatch <file
+$ mismatch file
 
 ```
 
@@ -13,7 +13,7 @@ The default buffer size is 64 bytes.
 
 ```
 $ echo '(()' >file
-$ BUFFER_SIZE=1024 mismatch <file
+$ BUFFER_SIZE=1024 mismatch file
 mismatch: /dev/stdin:1:1: unclosed '('
  1 | (()
      ^ here
@@ -24,8 +24,8 @@ The default stack depth is 4.
 
 ```
 $ echo '())' >file
-$ INITIAL_STACK_DEPTH=1 mismatch <file
-mismatch: /dev/stdin:1:1: unopened ')'
+$ INITIAL_STACK_DEPTH=1 mismatch file
+mismatch: file:1:1: unopened ')'
 1 | ())
       ^ here
 ```
