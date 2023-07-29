@@ -6,7 +6,10 @@ import (
 )
 
 var (
-	BufferSize        = env("BUFFER_SIZE", strconv.Atoi, 64)
+	// BufferSize is the size of the internal read buffer.
+	BufferSize = env("BUFFER_SIZE", strconv.Atoi, 64)
+
+	// InitialStackDepth is the initial stack depth for keeping track of mismatched parentheses.
 	InitialStackDepth = env("INITIAL_STACK_DEPTH", strconv.Atoi, 4)
 )
 
