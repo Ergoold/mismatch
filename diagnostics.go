@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"mismatch/position"
+	"mismatch/report"
 	"os"
 )
 
@@ -14,15 +15,30 @@ var (
 )
 
 func WriteDiagnostics(ps []position.Position, file *os.File, writer io.Writer) {
+	showInLine := true
+
 	for _, pos := range ps {
-		writeDiagnostic(pos, file, writer)
+		if err := writeDiagnostic(pos, file, writer, showInLine); err != nil {
+			report.Warning(err)
+
+			switch pathError := err.(type) {
+			case *os.PathError:
+				if pathError.Op != "seek" {
+					return
+				}
+
+				showInLine = false
+			default:
+				return
+			}
+		}
 	}
 }
 
-func writeDiagnostic(pos position.Position, file *os.File, writer io.Writer) {
+func writeDiagnostic(pos position.Position, file *os.File, writer io.Writer, showInLine bool) error {
 	value := pos.Value()
 
 	diagnostic := diagnostics[value]
 
-	pos.WriteDiagnostic(diagnostic, file, writer)
+	return pos.WriteDiagnostic(diagnostic, file, writer, showInLine)
 }
