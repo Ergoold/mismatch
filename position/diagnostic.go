@@ -7,8 +7,11 @@ import (
 	"os"
 )
 
-func (p Position) WriteDiagnostic(diagnostic string, file *os.File, writer io.Writer) {
-	if _, err := fmt.Fprintf(writer, "mismatch: %v:%v:%v: %v '%c'\n", file.Name(), p.line, p.char, diagnostic, p.value); err != nil {
+func (p Position) WriteDiagnostic(diagnostics map[byte]string, file *os.File, writer io.Writer) {
+	diagnostic := diagnostics[p.value]
+
+	if _, err := fmt.Fprintf(writer, "mismatch: %v:%v:%v: %v '%c'\n",
+		file.Name(), p.line, p.char, diagnostic, p.value); err != nil {
 		report.Fatal(err)
 	}
 }

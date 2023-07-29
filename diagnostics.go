@@ -18,7 +18,7 @@ func WriteDiagnostics(ps []position.Position, file *os.File, writer io.Writer) {
 	showInLine := true
 
 	for _, pos := range ps {
-		writeDiagnostic(pos, file, writer)
+		pos.WriteDiagnostic(diagnostics, file, writer)
 
 		if showInLine {
 			if err := pos.ShowPositionInLine(file, writer); err != nil {
@@ -37,12 +37,4 @@ func WriteDiagnostics(ps []position.Position, file *os.File, writer io.Writer) {
 			}
 		}
 	}
-}
-
-func writeDiagnostic(pos position.Position, file *os.File, writer io.Writer) {
-	value := pos.Value()
-
-	diagnostic := diagnostics[value]
-
-	pos.WriteDiagnostic(diagnostic, file, writer)
 }
