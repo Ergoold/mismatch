@@ -14,6 +14,7 @@ var (
 	}
 )
 
+// WriteDiagnostics writes a diagnostic for each position in ps in file to writer.
 func WriteDiagnostics(ps []position.Position, file *os.File, writer io.Writer) {
 	showInLine := true
 

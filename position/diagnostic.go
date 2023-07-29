@@ -7,15 +7,20 @@ import (
 	"os"
 )
 
+// WriteDiagnostic writes a diagnostic for p in file to writer, with a decription from diagnostics.
+//
+// diagnostics is a map from a character to the diagnostic that is written for positions with that character.
 func (p Position) WriteDiagnostic(diagnostics map[byte]string, file *os.File, writer io.Writer) {
+	fileName := file.Name()
 	diagnostic := diagnostics[p.value]
 
 	if _, err := fmt.Fprintf(writer, "mismatch: %v:%v:%v: %v '%c'\n",
-		file.Name(), p.line, p.char, diagnostic, p.value); err != nil {
+		fileName, p.line, p.char, diagnostic, p.value); err != nil {
 		report.Fatal(err)
 	}
 }
 
+// ShowPositionInLine writes to writer the line p is in from reader, and an indicator of the position of p in the line.
 func (p Position) ShowPositionInLine(reader io.ReadSeeker, writer io.Writer) error {
 	if _, err := reader.Seek(int64(p.lineStart), io.SeekStart); err != nil {
 		return err
