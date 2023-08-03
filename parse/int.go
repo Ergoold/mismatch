@@ -24,3 +24,17 @@ func PositiveInteger(s string) (int, error) {
 
 	return result, nil
 }
+
+func NonnegativeInteger(s string) (int, error) {
+	const funcName = "NonnegativeInteger"
+
+	if s == "0" {
+		return 0, nil
+	}
+
+	if result, err := PositiveInteger(s); err == nil {
+		return result, nil
+	} else {
+		return result, &Error{funcName, s, err.(*Error).Unwrap()}
+	}
+}
