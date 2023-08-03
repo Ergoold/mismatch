@@ -13,11 +13,19 @@ The default buffer size is 64 bytes.
 
 ```
 $ echo '(()' >file
-$ BUFFER_SIZE=1024 mismatch file
+$ BUFFER_SIZE=1.5KiB mismatch file
 mismatch: /dev/stdin:1:1: unclosed '('
  1 | (()
      ^ here
 ```
+
+The units that are supported in BUFFER_SIZE are as follows:
+
+- `k`, `kB`, `K`, `KB` = 1000¹ bytes and `Ki`, `KiB` = 1024¹ bytes,
+- `M`, `MB` = 1000² bytes and `Mi`, `MiB` = 1024² bytes,
+- `G`, `GB` = 1000³ bytes and `Gi`, `GiB` = 1024³ bytes,
+- `T`, `TB` = 1000⁴ bytes and `Ti`, `TiB` = 1024⁴ bytes,
+- an integer representing a number of bytes (with no unit).
 
 The initially-allocated stack depth for keeping mismatching parentheses is taken from the environment variable INITIAL_STACK_DEPTH.
 The default stack depth is 4.
@@ -32,7 +40,7 @@ mismatch: file:1:1: unopened ')'
 
 ## Gotchas
 
-Detailed diagnostics are not printed for pipes and other non-seekable streams
+Detailed diagnostics are not printed for pipes and other non-seekable streams.
 
 ```
 $ echo ')(' | mismatch
