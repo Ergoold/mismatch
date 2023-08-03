@@ -24,7 +24,10 @@ func env[T any](name string, parser parser[T], defaultValue T) T {
 	if parsed, err := parser(value); err == nil {
 		return parsed
 	} else if !errors.Is(err, parse.ErrEmpty) {
-		report.Warning(&envError{name, err})
+		report.Warning(
+			&envError{name, err},
+			fmt.Errorf("using default value %s=%v", name, defaultValue),
+		)
 	}
 
 	return defaultValue
