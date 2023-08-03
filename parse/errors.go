@@ -7,10 +7,19 @@ import (
 )
 
 var (
-	ErrEmpty  = errors.New("empty string")
+	// ErrEmpty is returned by all parse functions when the input string is empty.
+	ErrEmpty = errors.New("empty string")
+
+	// ErrSyntax is returned by all parse functions when the input string contains
+	// characters illegal in their position in the string for the type parsed.
 	ErrSyntax = errors.New("invalid syntax")
 )
 
+// Error is the error type returned by parse functions.
+//
+// Func is always the name of the function which returned the error.
+// Num is always the input string supplied to the function.
+// Err is always one of ErrEmpty or ErrSyntax.
 type Error struct {
 	Func string
 	Num  string
