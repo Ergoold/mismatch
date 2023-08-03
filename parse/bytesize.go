@@ -38,6 +38,11 @@ func unit(s string) (int, error) {
 	}
 }
 
+// ByteSize parses a string representing a number of bytes into an int.
+//
+// The units supported are the SI prefix abbreviations k (kilobyte) through T (terabyte)
+// and the corresponding binary prefixes. Units may contain or omit the letter B,
+// representing the quantity bytes.
 func ByteSize(s string) (int, error) {
 	const funcName = "ByteSize"
 

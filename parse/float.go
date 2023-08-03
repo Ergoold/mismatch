@@ -5,6 +5,13 @@ import (
 	"strings"
 )
 
+// PositiveFloat parses a string into a positive float of type float64.
+//
+// Only base 10 is supported. The entire string is parsed. The decimal separator
+// is the period and is always required.
+//
+// Signs and leading zeros cause ErrSyntax to be returned, except for a leading
+// zero followed by a decimal separator and.
 func PositiveFloat(s string) (float64, error) {
 	const funcName = "PositiveFloat"
 
